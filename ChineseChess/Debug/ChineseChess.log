@@ -1,0 +1,21 @@
+﻿  Arena.cpp
+c:\users\vic05\desktop\台科上課\107-2物件導向程式設計實習\chinesechess\chinesechess\arena.cpp(21): warning C4018: '<': signed/unsigned 不相符
+c:\users\vic05\desktop\台科上課\107-2物件導向程式設計實習\chinesechess\chinesechess\arena.cpp(23): warning C4018: '<': signed/unsigned 不相符
+  Chess.cpp
+c:\users\vic05\desktop\台科上課\107-2物件導向程式設計實習\chinesechess\chinesechess\chess.cpp(6): error C2511: 'Chess::Chess(int,bool,std::vector<short,std::allocator<_Ty>>)': 在 'Chess' 找不到多載成員函式
+          with
+          [
+              _Ty=short
+          ]
+  c:\users\vic05\desktop\台科上課\107-2物件導向程式設計實習\chinesechess\chinesechess\chess.h(4): note: 請參閱 'Chess' 的宣告
+c:\users\vic05\desktop\台科上課\107-2物件導向程式設計實習\chinesechess\chinesechess\chess.cpp(7): error C2550: 'Chess::{ctor}': 建構函式初始設定式清單只允許在建構函式定義上
+c:\users\vic05\desktop\台科上課\107-2物件導向程式設計實習\chinesechess\chinesechess\chess.cpp(10): error C2597: 參考非靜態成員 'Chess::camp' 是不合法的
+c:\users\vic05\desktop\台科上課\107-2物件導向程式設計實習\chinesechess\chinesechess\chess.cpp(14): error C2597: 參考非靜態成員 'Chess::camp' 是不合法的
+c:\users\vic05\desktop\台科上課\107-2物件導向程式設計實習\chinesechess\chinesechess\chess.cpp(23): error C2511: 'Soldier::Soldier(int,bool,short,short,bool)': 在 'Soldier' 找不到多載成員函式
+  c:\users\vic05\desktop\台科上課\107-2物件導向程式設計實習\chinesechess\chinesechess\chess.h(22): note: 請參閱 'Soldier' 的宣告
+c:\users\vic05\desktop\台科上課\107-2物件導向程式設計實習\chinesechess\chinesechess\chess.cpp(23): error C2550: 'Soldier::{ctor}': 建構函式初始設定式清單只允許在建構函式定義上
+c:\users\vic05\desktop\台科上課\107-2物件導向程式設計實習\chinesechess\chinesechess\chess.cpp(28): error C2248: 'Chess::camp': 無法存取 private 成員 (宣告在類別 'Chess' 中)
+  c:\users\vic05\desktop\台科上課\107-2物件導向程式設計實習\chinesechess\chinesechess\chess.h(16): note: 請參閱 'Chess::camp' 的宣告
+  c:\users\vic05\desktop\台科上課\107-2物件導向程式設計實習\chinesechess\chinesechess\chess.h(4): note: 請參閱 'Chess' 的宣告
+  ChineseChess.cpp
+  正在產生程式碼...
