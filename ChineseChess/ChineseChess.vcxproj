@@ -151,12 +151,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Arena.h" />
+    <ClInclude Include="Draw.h" />
     <ClInclude Include="chess.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Arena.cpp" />
+    <ClCompile Include="Draw.cpp" />
     <ClCompile Include="Chess.cpp" />
     <ClCompile Include="ChineseChess.cpp" />
     <ClCompile Include="pch.cpp">

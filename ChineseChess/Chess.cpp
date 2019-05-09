@@ -22,16 +22,28 @@ int Chess::getCamp()
 {
 	return camp;
 }
+bool& Chess::getAlive()
+{
+	return alive;
+}
+vector<short>& Chess::getPosition()
+{
+	return position;
+}
+vector<vector<short>>& Chess::getCanGo()
+{
+	return canGo;
+}
 //class Soldier
 
 Soldier::Soldier(int c, bool d, short x, short y) :Chess(c, d, x, y){};
-vector<vector<short>>Soldier::canGoList()
+vector<vector<short>>Soldier::listCanGo()
 {
 	if (overRiver = false)
 	{
 		if (this->getCamp() == 0)
 		{
-
+			getCanGo
 		}
 	}
 }

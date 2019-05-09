@@ -14,5 +14,7 @@
 #include<fstream>
 #include<string>
 #include<vector>
-
+#include<stdio.h>
+#include<conio.h>
+#include<windows.h>
 #endif //PCH_H

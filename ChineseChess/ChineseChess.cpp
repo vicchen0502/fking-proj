@@ -2,11 +2,11 @@
 //
 
 #include "pch.h"
-#include "Arena.h"
+#include "Chess.h"
+#include "Draw.h"
 int main()
 {
-	Arena game;
-	game.readInMap("Initial.txt");
+
 	
 	
 	

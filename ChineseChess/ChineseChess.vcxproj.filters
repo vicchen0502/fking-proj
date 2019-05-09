@@ -18,10 +18,10 @@
     <ClInclude Include="pch.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
-    <ClInclude Include="Arena.h">
+    <ClInclude Include="chess.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
-    <ClInclude Include="chess.h">
+    <ClInclude Include="Draw.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
   </ItemGroup>
@@ -32,10 +32,10 @@
     <ClCompile Include="ChineseChess.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
-    <ClCompile Include="Arena.cpp">
+    <ClCompile Include="Chess.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
-    <ClCompile Include="Chess.cpp">
+    <ClCompile Include="Draw.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
   </ItemGroup>
