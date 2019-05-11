@@ -158,7 +158,7 @@ vector<vector<int>> Chess::whereCanGO(vector<int>pos)
 		case 1://將
 			for (int i = max(pos[0]-1,0); i <= min(pos[0]+1,2); i++)
 			{
-				for (int j = max(pos[1]-1,4); j <= min(pos[1]+1,6); j++)
+				for (int j = max(pos[1]-1,3); j <= min(pos[1]+1,5); j++)
 				{
 					if (chessBoard[i][j] == 0 ||
 						(chessBoard[i][j] >= 8 && chessBoard[i][j] <= 14))
@@ -171,33 +171,33 @@ vector<vector<int>> Chess::whereCanGO(vector<int>pos)
 		case 2://士
 			if (pos[0] == 0)
 			{
-				if (chessBoard[1][5] == 0 ||
-					(chessBoard[1][5] >= 8 && chessBoard[1][5] <= 14))
+				if (chessBoard[1][4] == 0 ||
+					(chessBoard[1][4] >= 8 && chessBoard[1][4] <= 14))
 				{
-					leagelList.push_back({ 1, 5 });
+					leagelList.push_back({ 1, 4 });
 				}
 			}
 			else if (pos[0] == 1)
 			{
-				if (chessBoard[0][4] == 0 ||
-					(chessBoard[0][4] >= 8 && chessBoard[0][4] <= 14))
+				if (chessBoard[0][3] == 0 ||
+					(chessBoard[0][3] >= 8 && chessBoard[0][3] <= 14))
 				{
-					leagelList.push_back({ 0, 4 });
+					leagelList.push_back({ 0, 3 });
 				}
-				if (chessBoard[0][6] == 0 ||
-					(chessBoard[0][6] >= 8 && chessBoard[0][6] <= 14))
+				if (chessBoard[0][5] == 0 ||
+					(chessBoard[0][5] >= 8 && chessBoard[0][5] <= 14))
 				{
-					leagelList.push_back({ 0, 6 });
+					leagelList.push_back({ 0, 5 });
 				}
-				if (chessBoard[2][4] == 0 ||
-					(chessBoard[2][4] >= 8 && chessBoard[2][4] <= 14))
+				if (chessBoard[2][3] == 0 ||
+					(chessBoard[2][3] >= 8 && chessBoard[2][3] <= 14))
 				{
-					leagelList.push_back({ 2, 4 });
+					leagelList.push_back({ 2, 3 });
 				}
-				if (chessBoard[2][6] == 0 ||
-					(chessBoard[2][6] >= 8 && chessBoard[2][6] <= 14))
+				if (chessBoard[2][5] == 0 ||
+					(chessBoard[2][5] >= 8 && chessBoard[2][5] <= 14))
 				{
-					leagelList.push_back({ 2, 6 });
+					leagelList.push_back({ 2, 5 });
 				}
 			}
 			else if (pos[0] == 2)
@@ -205,10 +205,130 @@ vector<vector<int>> Chess::whereCanGO(vector<int>pos)
 				if (chessBoard[1][5] == 0 ||
 					(chessBoard[1][5] >= 8 && chessBoard[1][5] <= 14))
 				{
-					leagelList.push_back({ 1, 5 });
+					leagelList.push_back({ 1, 4 });
 				}
 			}
 			break;
+		case 3://象
+			for (int i = max(pos[0] - 2, 0); i <= min(pos[0] + 2, 4); i += 2)
+			{
+				for (int j = max(pos[1] - 2, 0); j <= min(pos[1] + 2, 8); j += 2)
+				{
+					if ((chessBoard[i][j] == 0 ||
+					    (chessBoard[i][j] >= 8 && chessBoard[i][j] <= 14))						)
+					{
+						if (i < pos[0] && j < pos[1])
+						{
+							if (chessBoard[i + 1][j + 1] == 0)
+							{
+								leagelList.push_back({ i,j });
+							}
+						}
+						else if (i < pos[0] && j > pos[1])
+						{
+							if (chessBoard[i + 1][j - 1] == 0)
+							{
+								leagelList.push_back({ i,j });
+							}
+						}
+						else if (i > pos[0] && j < pos[1])
+						{
+							if (chessBoard[i - 1][j + 1] == 0)
+							{
+								leagelList.push_back({ i,j });
+							}
+						}
+						else if (i > pos[0] && j > pos[1])
+						{
+							if (chessBoard[i - 1][j - 1] == 0)
+							{
+								leagelList.push_back({ i,j });
+							}
+						}
+					}
+				}
+			}
+			break;
+		case 4://車
+			int i = pos[1], j = pos[2];
+			while(i>=0)
+			{
+				if (leagelList[i][j] >= 1 && leagelList[i][j] <= 7)
+					break;
+				else if (leagelList[i][j] >= 8 && leagelList[i][j] <= 14)
+				{
+					leagelList.push_back({ i,j });
+					break;
+				}
+				else
+				{
+					leagelList.push_back({ i,j });
+				}
+				i--;
+			}
+			while (i <= 9)
+			{
+				if (leagelList[i][j] >= 1 && leagelList[i][j] <= 7)
+					break;
+				else if (leagelList[i][j] >= 8 && leagelList[i][j] <= 14)
+				{
+					leagelList.push_back({ i,j });
+					break;
+				}
+				else
+				{
+					leagelList.push_back({ i,j });
+				}
+				i++;
+			}
+			while (i <= 9)
+			{
+				if (leagelList[i][j] >= 1 && leagelList[i][j] <= 7)
+					break;
+				else if (leagelList[i][j] >= 8 && leagelList[i][j] <= 14)
+				{
+					leagelList.push_back({ i,j });
+					break;
+				}
+				else
+				{
+					leagelList.push_back({ i,j });
+				}
+				i++;
+			}
+			while (j >= 0)
+			{
+				if (leagelList[i][j] >= 1 && leagelList[i][j] <= 7)
+					break;
+				else if (leagelList[i][j] >= 8 && leagelList[i][j] <= 14)
+				{
+					leagelList.push_back({ i,j });
+					break;
+				}
+				else
+				{
+					leagelList.push_back({ i,j });
+				}
+				j--;
+			}
+			while (j <= 9)
+			{
+				if (leagelList[i][j] >= 1 && leagelList[i][j] <= 7)
+					break;
+				else if (leagelList[i][j] >= 8 && leagelList[i][j] <= 14)
+				{
+					leagelList.push_back({ i,j });
+					break;
+				}
+				else
+				{
+					leagelList.push_back({ i,j });
+				}
+				j++;
+			}
+			break;
+		case 5://馬
+
 		default:
 			break;
 		}
