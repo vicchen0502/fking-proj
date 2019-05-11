@@ -2,7 +2,7 @@
 //
 
 #include "pch.h"//內建標頭檔都在這
-#include "Chess.h"
+#include "chess.h"
 #include "Draw.h"
 int main()
 {
@@ -12,7 +12,7 @@ int main()
 	Chess mainChess("Initial.txt");
 	Draw GUI;
 	GUI.renewOutput();
-
+	/*
 	while (cin)
 	{
 		// 選棋子
@@ -23,8 +23,8 @@ int main()
 		// 記棋譜
 		GUI.renewChess(mainChess.moveChess());
 	}
-
-	system("pause");
+	*/
+	//system("pause");
 	return 0;
 }
 // 執行程式: Ctrl + F5 或 [偵錯] > [啟動但不偵錯] 功能表

@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "Chess.h"
+#include "chess.h"
 
 // 利用巨集先定義 上,下,左,右,ESC
 #define ESC	27
@@ -12,16 +12,13 @@
 
 using namespace std;
 
-void gotoxy(int x, int y);
-void SetCursorVisible(BOOL _bVisible, DWORD _dwSize);
 //class Chess
 Chess::Chess(string filename)
 {
-	filename = "Initial.txt";
 	ifstream fin(filename);
 	for (int i = 0; i < 10; i++)
 	{
-		vector<int> temp;
+		vector<int> temp = {};
 		for (int j = 0; j < 9; j++)
 		{
 			int chess;
@@ -113,31 +110,25 @@ vector<int> Chess::selectedChess()
 		return position;
 		break;
 	case ENTER:
-		position[0] = coordInData.X;
-		position[1] = coordInData.Y;
+		if (whoseTurn == 0 &&
+			chessBoard[coordInData.X][coordInData.Y] >= 1 &&
+			chessBoard[coordInData.X][coordInData.Y] <= 7)
+		{
+			position[0] = coordInData.X;
+			position[1] = coordInData.Y;
+		}
+		else if (whoseTurn == 1 &&
+			chessBoard[coordInData.X][coordInData.Y] >= 8 &&
+			chessBoard[coordInData.X][coordInData.Y] <= 14)
+		{
+			position[0] = coordInData.X;
+			position[1] = coordInData.Y;
+		}
+		else selectedChess();
 		return position;
 		break;
 	default:
-		return position;
-		break;
+		selectedChess();
 	}
 	
-}
-
-
-// 游標移動 "至" (x, y)  
-void gotoxy(int x, int y)
-{
-	COORD point;
-	point.X = x; point.Y = y;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), point);
-}
-
-// 設定游標的樣式
-void SetCursorVisible(BOOL _bVisible, DWORD _dwSize)
-{
-	CONSOLE_CURSOR_INFO CCI;
-	CCI.bVisible = _bVisible;
-	CCI.dwSize = _dwSize;
-	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &CCI);
 }

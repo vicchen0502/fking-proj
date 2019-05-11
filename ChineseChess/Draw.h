@@ -1,6 +1,9 @@
-#pragma once
-#include"pch.h"
-#include"Chess.h"
+#ifndef DRAW_H
+#define DRAW_H
+
+//#include"pch.h"
+//#include"chess.h"
+
 using namespace std;
 class Draw
 {
@@ -9,7 +12,7 @@ private:
 	vector<string>leftPart;
 	vector<string>rightPart;
 public:
-	friend Chess;
+	//friend class Chess;
 	void showHint(vector<int>pos);
 	void renewChess(vector<int>pos)
 	{
@@ -21,3 +24,6 @@ public:
 	};
 	void renewOutput();
 };
+
+#endif // DRAW_H
+

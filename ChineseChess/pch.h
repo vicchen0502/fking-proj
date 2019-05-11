@@ -12,9 +12,19 @@
 // TODO: 請於此新增您要先行編譯的標頭
 #include<iostream>
 #include<fstream>
+#include<sstream>
 #include<string>
 #include<vector>
 #include<stdio.h>
 #include<conio.h>
 #include<windows.h>
+
+using namespace std;
+
+// 游標移動 "至" (x, y)  
+void gotoxy(int x, int y);
+// 設定游標的樣式
+void SetCursorVisible(BOOL _bVisible, DWORD _dwSize);
+// 初始化棋盤 (無任何文字，只有符號)
+vector<string> intialBoard(vector<string>chessBoard);
 #endif //PCH_H
