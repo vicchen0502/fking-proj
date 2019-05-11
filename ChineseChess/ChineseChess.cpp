@@ -12,18 +12,20 @@ int main()
 	Chess mainChess("Initial.txt");
 	Draw GUI;
 	GUI.renewOutput();
-	/*
-	while (cin)
+	
+	while (true)
 	{
-		// 選棋子
+		vector<int>currentPosition = {};
+		currentPosition = mainChess.selectedChess();
+		mainChess.whereCanGO(currentPosition);
 		// 提示可下的位置
-		GUI.showHint(mainChess.selectedChess());
+		//GUI.showHint(mainChess.selectedChess());
 
 		// 移動棋子、改棋盤，畫出棋盤
 		// 記棋譜
-		GUI.renewChess(mainChess.moveChess());
+		//GUI.renewChess(mainChess.moveChess());
 	}
-	*/
+	
 	//system("pause");
 	return 0;
 }

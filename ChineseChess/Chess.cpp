@@ -52,7 +52,8 @@ vector<int> Chess::selectedChess()
 	COORD coordInData;
 	coordInData = { 0, 0 };
 	int func;
-	while (1)
+	beforeSelect:
+	while (true)
 	{
 		ch1 = _getch();
 		if (ch1 == ESC)
@@ -70,28 +71,32 @@ vector<int> Chess::selectedChess()
 					break;
 				Y = Y - 2;
 				gotoxy(X, Y);
-				coordInData.Y -= 1;
+				coordInData.X -= 1;
 				break;
 			case DOWN:
 				if (Y == 19)
 					break;
 				Y = Y + 2;
 				gotoxy(X, Y);
-				coordInData.Y += 1;
+				coordInData.X += 1;
 				break;
 			case LEFT:
 				if (X == 0)
 					break;
 				X = X - 4;
 				gotoxy(X, Y);
-				coordInData.X -= 1;
+				coordInData.Y -= 1;
 				break;
 			case RIGHT:
 				if (X == 32)
 					break;
 				X = X + 4;
 				gotoxy(X, Y);
-				coordInData.X += 1;
+				coordInData.Y += 1;
+				break;
+			case ENTER:
+				func = ENTER;
+				goto afterselect;
 				break;
 			}
 
@@ -99,10 +104,11 @@ vector<int> Chess::selectedChess()
 		else if (ch1 == ENTER)
 		{
 			func = ENTER;
-
-			break;
+			goto afterselect;
 		}
 	}
+	
+afterselect:
 	vector<int> position = { -1,-1 };
 	switch (func)
 	{
@@ -110,25 +116,110 @@ vector<int> Chess::selectedChess()
 		return position;
 		break;
 	case ENTER:
-		if (whoseTurn == 0 &&
-			chessBoard[coordInData.X][coordInData.Y] >= 1 &&
-			chessBoard[coordInData.X][coordInData.Y] <= 7)
+		if (whoseTurn == 0)
 		{
-			position[0] = coordInData.X;
-			position[1] = coordInData.Y;
+			if (chessBoard[coordInData.X][coordInData.Y] >= 1 && chessBoard[coordInData.X][coordInData.Y] <= 7)
+			{
+				position[0] = coordInData.X;
+				position[1] = coordInData.Y;
+			}
+			else
+			{
+				goto beforeSelect;
+			}
 		}
-		else if (whoseTurn == 1 &&
-			chessBoard[coordInData.X][coordInData.Y] >= 8 &&
-			chessBoard[coordInData.X][coordInData.Y] <= 14)
+		else if (whoseTurn == 1)
 		{
-			position[0] = coordInData.X;
-			position[1] = coordInData.Y;
+			if(chessBoard[coordInData.X][coordInData.Y] >= 8 && chessBoard[coordInData.X][coordInData.Y] <= 14)
+			{
+				position[0] = coordInData.X;
+				position[1] = coordInData.Y;
+			}
+			else goto beforeSelect;
 		}
 		else selectedChess();
+
 		return position;
 		break;
 	default:
-		selectedChess();
+		goto beforeSelect;
+		break;
 	}
 	
+}
+
+vector<vector<int>> Chess::whereCanGO(vector<int>pos)
+{
+	vector<vector<int>>leagelList;
+	if (whoseTurn == 0)
+	{
+		switch (chessBoard[pos[0]][pos[1]])
+		{
+		case 1://±N
+			for (int i = max(pos[0]-1,0); i <= min(pos[0]+1,2); i++)
+			{
+				for (int j = max(pos[1]-1,4); j <= min(pos[1]+1,6); j++)
+				{
+					if (chessBoard[i][j] == 0 ||
+						(chessBoard[i][j] >= 8 && chessBoard[i][j] <= 14))
+					{
+						leagelList.push_back({ i,j });
+					}
+				}
+			}
+			break;
+		case 2://¤h
+			if (pos[0] == 0)
+			{
+				if (chessBoard[1][5] == 0 ||
+					(chessBoard[1][5] >= 8 && chessBoard[1][5] <= 14))
+				{
+					leagelList.push_back({ 1, 5 });
+				}
+			}
+			else if (pos[0] == 1)
+			{
+				if (chessBoard[0][4] == 0 ||
+					(chessBoard[0][4] >= 8 && chessBoard[0][4] <= 14))
+				{
+					leagelList.push_back({ 0, 4 });
+				}
+				if (chessBoard[0][6] == 0 ||
+					(chessBoard[0][6] >= 8 && chessBoard[0][6] <= 14))
+				{
+					leagelList.push_back({ 0, 6 });
+				}
+				if (chessBoard[2][4] == 0 ||
+					(chessBoard[2][4] >= 8 && chessBoard[2][4] <= 14))
+				{
+					leagelList.push_back({ 2, 4 });
+				}
+				if (chessBoard[2][6] == 0 ||
+					(chessBoard[2][6] >= 8 && chessBoard[2][6] <= 14))
+				{
+					leagelList.push_back({ 2, 6 });
+				}
+			}
+			else if (pos[0] == 2)
+			{
+				if (chessBoard[1][5] == 0 ||
+					(chessBoard[1][5] >= 8 && chessBoard[1][5] <= 14))
+				{
+					leagelList.push_back({ 1, 5 });
+				}
+			}
+			break;
+		default:
+			break;
+		}
+	}
+	else if (whoseTurn == 1)
+	{
+
+	}
+	else
+	{
+		cout << "Can't find player" << endl;
+	}
+	return leagelList;
 }
