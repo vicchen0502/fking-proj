@@ -11,7 +11,9 @@
 #define ENTER 13
 
 using namespace std;
-
+vector<string> Chess::chessStep = {};
+int Chess::whoseTurn = 0;
+int Chess::stepNumber = 0;
 //class Chess
 Chess::Chess(string filename)
 {
@@ -266,81 +268,103 @@ vector<vector<int>> Chess::whereCanGO(vector<int>pos)
 		}
 		case 4:	 //車
 		{
-			int i = pos[1], j = pos[2];
-			while (i >= 0)
+			// 向左走
+			int x = pos[0];
+			int y = pos[1];
+			y -= 1;
+			while (true)
 			{
-				if (legalList[i][j] >= 1 && legalList[i][j] <= 7)
-					break;
-				else if (legalList[i][j] >= 8 && legalList[i][j] <= 14)
+				// 當第一次遇到 != 0，停止。
+				if (chessBoard[x][y] != 0)
 				{
-					legalList.push_back({ i,j });
 					break;
 				}
+				// 當第一次遇到邊界，停止。
+				else if (y == 0)
+				{
+					temp = { x, y };
+					legalList.push_back(temp);
+					break;
+				}
+				// 繼續走，並加入到legalList。
 				else
 				{
-					legalList.push_back({ i,j });
+					temp = { x, y };
+					legalList.push_back(temp);
+					y--;
 				}
-				i--;
 			}
-			while (i <= 9)
+			// 向右走
+			x = pos[0];
+			y = pos[1];
+			y += 1;
+			while (true)
 			{
-				if (legalList[i][j] >= 1 && legalList[i][j] <= 7)
-					break;
-				else if (legalList[i][j] >= 8 && legalList[i][j] <= 14)
+				if (chessBoard[x][y] != 0)
 				{
-					legalList.push_back({ i,j });
+					break;
+				}
+				else if (y == 8)
+				{
+					temp = { x, y };
+					legalList.push_back(temp);
 					break;
 				}
 				else
 				{
-					legalList.push_back({ i,j });
+					temp = { x, y };
+					legalList.push_back(temp);
+					y++;
 				}
-				i++;
-			}
-			while (i <= 9)
-			{
-				if (legalList[i][j] >= 1 && legalList[i][j] <= 7)
-					break;
-				else if (legalList[i][j] >= 8 && legalList[i][j] <= 14)
+				// 向上走
+				x = pos[0];
+				y = pos[1];
+				x -= 1;
+				while (true)
 				{
-					legalList.push_back({ i,j });
-					break;
+					if (chessBoard[x][y] != 0)
+					{
+						break;
+					}
+					else if (x == 0)
+					{
+						temp = { x, y };
+						legalList.push_back(temp);
+						break;
+					}
+					else
+					{
+						temp = { x, y };
+						legalList.push_back(temp);
+						x--;
+					}
 				}
-				else
+				// 向下走
+				x = pos[0];
+				y = pos[1];
+				x += 1;
+				while (true)
 				{
-					legalList.push_back({ i,j });
+					// 當第一次遇到 != 0，停止。
+					if (chessBoard[x][y] != 0)
+					{
+						break;
+					}
+					// 當第一次遇到邊界，停止。
+					else if (x == 9)
+					{
+						temp = { x, y };
+						legalList.push_back(temp);
+						break;
+					}
+					// 繼續走
+					else
+					{
+						temp = { x, y };
+						legalList.push_back(temp);
+						x++;
+					}
 				}
-				i++;
-			}
-			while (j >= 0)
-			{
-				if (legalList[i][j] >= 1 && legalList[i][j] <= 7)
-					break;
-				else if (legalList[i][j] >= 8 && legalList[i][j] <= 14)
-				{
-					legalList.push_back({ i,j });
-					break;
-				}
-				else
-				{
-					legalList.push_back({ i,j });
-				}
-				j--;
-			}
-			while (j <= 9)
-			{
-				if (legalList[i][j] >= 1 && legalList[i][j] <= 7)
-					break;
-				else if (legalList[i][j] >= 8 && legalList[i][j] <= 14)
-				{
-					legalList.push_back({ i,j });
-					break;
-				}
-				else
-				{
-					legalList.push_back({ i,j });
-				}
-				j++;
 			}
 			break;
 		}
@@ -603,7 +627,7 @@ vector<vector<int>> Chess::whereCanGO(vector<int>pos)
 			}
 			else if (pos[0] <= 4)
 			{
-				temp = { pos[0] - 1,pos[1] };
+				temp = { pos[0] + 1,pos[1] };
 				legalList.push_back(temp);
 				break;
 			}
@@ -735,83 +759,106 @@ vector<vector<int>> Chess::whereCanGO(vector<int>pos)
 	}
 		case 4:	 //俥
 		{
-		int i = pos[1], j = pos[2];
-		while (i >= 0)
-		{
-			if (legalList[i][j] >= 8 && legalList[i][j] <= 14)
-				break;
-			else if (legalList[i][j] >= 1 && legalList[i][j] <= 7)
+
+			// 向左走
+			int x = pos[0];
+			int y = pos[1];
+			y -= 1;
+			while (true)
 			{
-				legalList.push_back({ i,j });
-				break;
+				// 當第一次遇到 != 0，停止。
+				if (chessBoard[x][y] != 0)
+				{
+					break;
+				}
+				// 當第一次遇到邊界，停止。
+				else if (y == 0)
+				{
+					temp = { x, y };
+					legalList.push_back(temp);
+					break;
+				}
+				// 繼續走，並加入到legalList。
+				else
+				{
+					temp = { x, y };
+					legalList.push_back(temp);
+					y--;
+				}
 			}
-			else
+			// 向右走
+			x = pos[0];
+			y = pos[1];
+			y += 1;
+			while (true)
 			{
-				legalList.push_back({ i,j });
+				if (chessBoard[x][y] != 0)
+				{
+					break;
+				}
+				else if (y == 8)
+				{
+					temp = { x, y };
+					legalList.push_back(temp);
+					break;
+				}
+				else
+				{
+					temp = { x, y };
+					legalList.push_back(temp);
+					y++;
+				}
+				// 向上走
+				x = pos[0];
+				y = pos[1];
+				x -= 1;
+				while (true)
+				{
+					if (chessBoard[x][y] != 0)
+					{
+						break;
+					}
+					else if (x == 0)
+					{
+						temp = { x, y };
+						legalList.push_back(temp);
+						break;
+					}
+					else
+					{
+						temp = { x, y };
+						legalList.push_back(temp);
+						x--;
+					}
+				}
+				// 向下走
+				x = pos[0];
+				y = pos[1];
+				x += 1;
+				while (true)
+				{
+					// 當第一次遇到 != 0，停止。
+					if (chessBoard[x][y] != 0)
+					{
+						break;
+					}
+					// 當第一次遇到邊界，停止。
+					else if (x == 9)
+					{
+						temp = { x, y };
+						legalList.push_back(temp);
+						break;
+					}
+					// 繼續走
+					else
+					{
+						temp = { x, y };
+						legalList.push_back(temp);
+						x++;
+					}
+				}
 			}
-			i--;
-		}
-		while (i <= 9)
-		{
-			if (legalList[i][j] >= 8 && legalList[i][j] <= 17)
-				break;
-			else if (legalList[i][j] >= 1 && legalList[i][j] <= 7)
-			{
-				legalList.push_back({ i,j });
-				break;
-			}
-			else
-			{
-				legalList.push_back({ i,j });
-			}
-			i++;
-		}
-		while (i <= 9)
-		{
-			if (legalList[i][j] >= 8 && legalList[i][j] <= 14)
-				break;
-			else if (legalList[i][j] >= 1 && legalList[i][j] <= 7)
-			{
-				legalList.push_back({ i,j });
-				break;
-			}
-			else
-			{
-				legalList.push_back({ i,j });
-			}
-			i++;
-		}
-		while (j >= 0)
-		{
-			if (legalList[i][j] >= 8 && legalList[i][j] <= 14)
-				break;
-			else if (legalList[i][j] >= 1 && legalList[i][j] <= 7)
-			{
-				legalList.push_back({ i,j });
-				break;
-			}
-			else
-			{
-				legalList.push_back({ i,j });
-			}
-			j--;
-		}
-		while (j <= 9)
-		{
-			if (legalList[i][j] >= 8 && legalList[i][j] <= 14)
-				break;
-			else if (legalList[i][j] >= 1 && legalList[i][j] <= 7)
-			{
-				legalList.push_back({ i,j });
-				break;
-			}
-			else
-			{
-				legalList.push_back({ i,j });
-			}
-			j++;
-		}
-		break;
+			break;
 	}
 		case 5:  //傌
 		{
@@ -1176,6 +1223,7 @@ after:
 			chessBoard[moveTo[0]][moveTo[1]] = chessBoard[pos[0]][pos[1]];
 			chessBoard[pos[0]][pos[1]] = 0;
 			chessRecord.push_back(chessBoard);
+			
 			return position;
 			break;
 		}
@@ -1245,15 +1293,19 @@ void Chess::recordChessStep(vector<int>ori, vector<int>des)
 {
 	vector<string>fullA;
 	vector<string>fullC;
+	string halfFront,halfBack,res;
 	fullA = { "０","１","２","３","４","５","６","７","８","９" };
 	fullC = { "零","九","八","七","六","五","四","三","二","一" };
-	stringstream step("║ 　");
-	stepNumber += 1;
+	stringstream step("");
 	vector<int>num;
-	while (stepNumber > 0)
-	{
-		num.push_back(stepNumber % 10);
-		stepNumber /= 10;
+	halfFront = "║ ";
+	stepNumber += 1;
+	step << "　";
+	int temp = stepNumber;
+	while (temp > 0)
+	{	
+		num.push_back(temp % 10);
+		temp /= 10;
 	}
 	for (int i = num.size() - 1; i >= 0; i--)
 	{
@@ -1261,6 +1313,7 @@ void Chess::recordChessStep(vector<int>ori, vector<int>des)
 	}
 	if (whoseTurn == 0)
 	{
+		
 		step << "黑：";
 		switch (chessBoard[ori[0]][ori[1]])
 		{
@@ -1365,6 +1418,8 @@ void Chess::recordChessStep(vector<int>ori, vector<int>des)
 	}
 	else if (whoseTurn == 1)
 	{
+		
+		
 		step << "紅：";
 		switch (chessBoard[ori[0]][ori[1]] - 7)
 		{
@@ -1465,8 +1520,8 @@ void Chess::recordChessStep(vector<int>ori, vector<int>des)
 			break;
 		}
 	}
-	step << "　　　║ ";
-	string res;
+	step << "　　　║";
+	halfBack = " ";
 	step >> res;
-	chessStep.push_back(res);
+	chessStep.push_back(halfFront+res+halfBack);
 }

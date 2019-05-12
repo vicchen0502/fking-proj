@@ -8,11 +8,11 @@ public:
 	static vector<vector<int>>chessBoard;
 private:
 	vector<vector<vector<int>>> chessRecord; //¾ú¥v¬ö¿ýtable
-	vector<string> chessStep; //´ÑÃÐ
+	static vector<string> chessStep; //´ÑÃÐ
 	vector<vector<int>> legalMoveSpace;
-	int whoseTurn = 0;
-	int stepNumber = 0;
-	void recordChessStep(vector<int>ori, vector<int>des);
+	static int whoseTurn ;
+	static int stepNumber ;
+	static void recordChessStep(vector<int>ori, vector<int>des);
 public:
 	friend class Draw;
 	Chess(string filename);

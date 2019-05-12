@@ -812,12 +812,23 @@ void Draw::renewChessPart()
 void Draw::renewLeft()
 {
 	leftPart = initialSituation(leftPart);
-	//int i
+	if (Chess::chessStep.size() > 0)
+	{
+		leftPart[Chess::stepNumber] = Chess::chessStep[Chess::stepNumber - 1];
+	}
 }
 
 void Draw::renewRight()
 {
 	rightPart = initialRight(rightPart);
+	if (Chess::whoseTurn == 0)
+	{
+		rightPart[3] = "║ 　　現在輪到　黑色方　下棋　　║ ";
+	}
+	else if (Chess::whoseTurn == 1)
+	{
+		rightPart[3] = "║ 　　現在輪到　紅色方　下棋　　║ ";
+	}
 	// 後面再持續更新
 }
 
