@@ -39,9 +39,9 @@ vector<int> Chess::selectedChess()
 
 	// 200 是變成橫向游標  (你可以試試看	SetCursorVisible(TRUE, 100);)
 	SetCursorVisible(TRUE, 200);
-	gotoxy(0, 1);
-	X = 0;
-	Y = 1;
+	gotoxy(30, 2);
+	X = 30;
+	Y = 2;
 	COORD coordInData;
 	coordInData = { 0, 0 };
 	int func;
@@ -60,28 +60,28 @@ vector<int> Chess::selectedChess()
 			switch (ch2)
 			{
 			case UP:
-				if (Y == 1)
+				if (Y == 2)
 					break;
 				Y = Y - 2;
 				gotoxy(X, Y);
 				coordInData.X -= 1;
 				break;
 			case DOWN:
-				if (Y == 19)
+				if (Y == 20)
 					break;
 				Y = Y + 2;
 				gotoxy(X, Y);
 				coordInData.X += 1;
 				break;
 			case LEFT:
-				if (X == 0)
+				if (X == 30)
 					break;
 				X = X - 4;
 				gotoxy(X, Y);
 				coordInData.Y -= 1;
 				break;
 			case RIGHT:
-				if (X == 32)
+				if (X == 62)
 					break;
 				X = X + 4;
 				gotoxy(X, Y);
@@ -1097,9 +1097,10 @@ vector<int> Chess::moveChess(vector<int>pos)
 
 	// 200 是變成橫向游標  (你可以試試看	SetCursorVisible(TRUE, 100);)
 	SetCursorVisible(TRUE, 200);
-	X = 0+4*pos[0];
-	Y = 1+2*pos[1];
-	COORD coordInData;
+	gotoxy(30 + 4 * pos[1], 2 + 2 * pos[0]);
+	X = 30+4*pos[1];
+	Y = 2+2*pos[0];
+	vector<int>coordInData;
 	coordInData = { pos[0], pos[1] };
 	int func;
 before:
@@ -1117,32 +1118,32 @@ before:
 			switch (ch2)
 			{
 			case UP:
-				if (Y == 1)
+				if (Y == 2)
 					break;
 				Y = Y - 2;
 				gotoxy(X, Y);
-				coordInData.X -= 1;
+				coordInData[0] -= 1;
 				break;
 			case DOWN:
-				if (Y == 19)
+				if (Y == 20)
 					break;
 				Y = Y + 2;
 				gotoxy(X, Y);
-				coordInData.X += 1;
+				coordInData[0] += 1;
 				break;
 			case LEFT:
-				if (X == 0)
+				if (X == 30)
 					break;
 				X = X - 4;
 				gotoxy(X, Y);
-				coordInData.Y -= 1;
+				coordInData[1] -= 1;
 				break;
 			case RIGHT:
-				if (X == 32)
+				if (X == 62)
 					break;
 				X = X + 4;
 				gotoxy(X, Y);
-				coordInData.Y += 1;
+				coordInData[1] += 1;
 				break;
 			case ENTER:
 				func = ENTER;
@@ -1155,11 +1156,12 @@ before:
 		{
 			func = ENTER;
 			goto after;
+			break;
 		}
 	}
 
 after:
-	vector<int> moveTo = { coordInData.X,coordInData.Y };
+	vector<int> moveTo = { coordInData[0],coordInData[1] };
 	vector<int> position = { -1,-1 };
 	switch (func)
 	{
@@ -1175,6 +1177,7 @@ after:
 			chessBoard[pos[0]][pos[1]] = 0;
 			chessRecord.push_back(chessBoard);
 			return position;
+			break;
 		}
 		else goto before;
 	default:

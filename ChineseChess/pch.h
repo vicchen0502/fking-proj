@@ -26,6 +26,12 @@ using namespace std;
 void gotoxy(int x, int y);
 // 設定游標的樣式
 void SetCursorVisible(BOOL _bVisible, DWORD _dwSize);
+// 字體背景顏色
+void SetColor(int color);
 // 初始化棋盤 (無任何文字，只有符號)
 vector<string> intialBoard(vector<string>chessBoard);
+// 初始化戰況
+vector<string>initialSituation(vector<string>leftPart);
+// 初始化右側顯示
+vector<string>initialRight(vector<string>rightPart);
 #endif //PCH_H

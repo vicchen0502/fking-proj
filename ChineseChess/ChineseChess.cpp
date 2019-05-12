@@ -11,19 +11,25 @@ int main()
 	// 讀取誰先下
 	Chess mainChess("Initial.txt");
 	Draw GUI;
-	GUI.renewOutput();
-	
+	GUI.renewChessPart();
+	GUI.renewLeft();
+	GUI.renewRight();
+	GUI.showOutput();
+
 	while (true)
 	{
 		vector<int>currentPosition = {};
+		vector<int>nextPosition = {};
 		vector<vector<int>>legal = { {} };
 		currentPosition = mainChess.selectedChess();
 		legal = mainChess.whereCanGO(currentPosition);
 		// 提示可下的位置
-		//GUI.showHint(legal);
+		GUI.showHint(legal);
 
 		// 移動棋子、改棋盤，畫出棋盤
-		mainChess.moveChess(currentPosition);
+		nextPosition = mainChess.moveChess(currentPosition);
+		cout << nextPosition[0] << " " << nextPosition[1] << endl;
+		system("pause");
 		mainChess.nextPlayer();
 		// 記棋譜
 		//GUI.renewChess(mainChess.moveChess());
@@ -32,6 +38,7 @@ int main()
 	//system("pause");
 	return 0;
 }
+
 // 執行程式: Ctrl + F5 或 [偵錯] > [啟動但不偵錯] 功能表
 // 偵錯程式: F5 或 [偵錯] > [啟動偵錯] 功能表
 
