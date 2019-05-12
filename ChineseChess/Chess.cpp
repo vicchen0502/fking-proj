@@ -1,7 +1,7 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "chess.h"
 
-// §Q¥Î¥¨¶°¥ı©w¸q ¤W,¤U,¥ª,¥k,ESC
+// åˆ©ç”¨å·¨é›†å…ˆå®šç¾© ä¸Š,ä¸‹,å·¦,å³,ESC
 #define ESC	27
 #define DIRECTION_KEYBOARD	224
 #define UP     72
@@ -34,17 +34,17 @@ Chess::Chess(string filename)
 
 vector<int> Chess::selectedChess()
 {
-	// ´å¼Ğ²¾°Ê "¦Ü" (x, y)  
+	// æ¸¸æ¨™ç§»å‹• "è‡³" (x, y)  
 	void gotoxy(int x, int y);
 	
-	// ³]©w´å¼Ğªº¼Ë¦¡
+	// è¨­å®šæ¸¸æ¨™çš„æ¨£å¼
 	void SetCursorVisible(BOOL _bVisible, DWORD _dwSize);
 	
-	// ¥H¤Uµ{¦¡½X¬O²¾°Ê´å¼Ğ
+	// ä»¥ä¸‹ç¨‹å¼ç¢¼æ˜¯ç§»å‹•æ¸¸æ¨™
 	unsigned short int ch1, ch2;
 	unsigned short int X = 0, Y = 0;
 
-	// 200 ¬OÅÜ¦¨¾î¦V´å¼Ğ  (§A¥i¥H¸Õ¸Õ¬İ	SetCursorVisible(TRUE, 100);)
+	// 200 æ˜¯è®Šæˆæ©«å‘æ¸¸æ¨™  (ä½ å¯ä»¥è©¦è©¦çœ‹	SetCursorVisible(TRUE, 100);)
 	SetCursorVisible(TRUE, 200);
 	gotoxy(0, 1);
 	X = 0;
@@ -157,7 +157,7 @@ vector<vector<int>> Chess::whereCanGO(vector<int>pos)
 		switch (chessBoard[pos[0]][pos[1]])
 		{
 
-		case 1:  //±N
+		case 1:  //å°‡
 		{
 			for (int i = max(pos[0] - 1, 0); i <= min(pos[0] + 1, 2); i++)
 			{
@@ -172,7 +172,7 @@ vector<vector<int>> Chess::whereCanGO(vector<int>pos)
 			}
 			break;
 		}
-		case 2:  //¤h
+		case 2:  //å£«
 		{
 			if (pos[0] == 0)
 			{
@@ -207,15 +207,15 @@ vector<vector<int>> Chess::whereCanGO(vector<int>pos)
 			}
 			else if (pos[0] == 2)
 			{
-				if (chessBoard[1][5] == 0 ||
-					(chessBoard[1][5] >= 8 && chessBoard[1][5] <= 14))
+				if (chessBoard[1][4] == 0 ||
+					(chessBoard[1][4] >= 8 && chessBoard[1][4] <= 14))
 				{
 					legalList.push_back({ 1, 4 });
 				}
 			}
 			break;
 		}
-		case 3:  //¶H
+		case 3:  //è±¡
 		{
 			for (int i = max(pos[0] - 2, 0); i <= min(pos[0] + 2, 4); i += 2)
 			{
@@ -257,7 +257,7 @@ vector<vector<int>> Chess::whereCanGO(vector<int>pos)
 			}
 			break;
 		}
-		case 4:	 //¨®
+		case 4:	 //è»Š
 		{
 			int i = pos[1], j = pos[2];
 			while (i >= 0)
@@ -337,7 +337,7 @@ vector<vector<int>> Chess::whereCanGO(vector<int>pos)
 			}
 			break;
 		}
-		case 5:  //°¨
+		case 5:  //é¦¬
 		{
 			if (pos[0] - 1 >= 1 && chessBoard[pos[0] - 1][pos[1]] == 0)
 			{
@@ -393,27 +393,27 @@ vector<vector<int>> Chess::whereCanGO(vector<int>pos)
 			}
 			break;
 		}
-		case 6:  //¬¶
+		case 6:  //åŒ…
 		{
-			// ¦V¥ª¨«
+			// å‘å·¦èµ°
 			int x = pos[0];
 			int y = pos[1];
 			y -= 1;
 			while (true)
 			{
-				// ·í²Ä¤@¦¸¹J¨ì != 0¡A°±¤î¡C
+				// ç•¶ç¬¬ä¸€æ¬¡é‡åˆ° != 0ï¼Œåœæ­¢ã€‚
 				if (chessBoard[x][y] != 0)
 				{
 					break;
 				}
-				// ·í²Ä¤@¦¸¹J¨ìÃä¬É¡A°±¤î¡C
+				// ç•¶ç¬¬ä¸€æ¬¡é‡åˆ°é‚Šç•Œï¼Œåœæ­¢ã€‚
 				else if (y == 0)
 				{
 					temp = { x, y };
 					legalList.push_back(temp);
 					break;
 				}
-				// Ä~Äò¨«¡A¨Ã¥[¤J¨ìlegalList¡C
+				// ç¹¼çºŒèµ°ï¼Œä¸¦åŠ å…¥åˆ°legalListã€‚
 				else
 				{
 					temp = { x, y };
@@ -421,20 +421,20 @@ vector<vector<int>> Chess::whereCanGO(vector<int>pos)
 					y--;
 				}
 			}
-			// ¦pªG¤£¬OÃä¬É«hÄ~Äò§ä¥i¥H¦Yªº´Ñ¤l¡C
+			// å¦‚æœä¸æ˜¯é‚Šç•Œå‰‡ç¹¼çºŒæ‰¾å¯ä»¥åƒçš„æ£‹å­ã€‚
 			if (y != 0)
 			{
 				while (true)
 				{
 					y--;
-					// ¦pªG¬O¬õ¦â¤è«h¥i¥H¦Y¡A°±¤î
+					// å¦‚æœæ˜¯ç´…è‰²æ–¹å‰‡å¯ä»¥åƒï¼Œåœæ­¢
 					if (chessBoard[x][y] >= 8 && chessBoard[x][y] <= 14)
 					{
 						temp = { x, y };
 						legalList.push_back(temp);
 						break;
 					}
-					// ¦pªG¹J¨ìÃä¬É³£¨S¦³¡A°±¤î
+					// å¦‚æœé‡åˆ°é‚Šç•Œéƒ½æ²’æœ‰ï¼Œåœæ­¢
 					else if (y == 0)
 					{
 						break;
@@ -442,7 +442,7 @@ vector<vector<int>> Chess::whereCanGO(vector<int>pos)
 				}
 			}
 
-			// ¦V¥k¨«
+			// å‘å³èµ°
 			x = pos[0];
 			y = pos[1];
 			y += 1;
@@ -483,7 +483,7 @@ vector<vector<int>> Chess::whereCanGO(vector<int>pos)
 				}
 			}
 
-			// ¦V¤W¨«
+			// å‘ä¸Šèµ°
 			x = pos[0];
 			y = pos[1];
 			x -= 1;
@@ -524,25 +524,25 @@ vector<vector<int>> Chess::whereCanGO(vector<int>pos)
 				}
 			}
 
-			// ¦V¤U¨«
+			// å‘ä¸‹èµ°
 			x = pos[0];
 			y = pos[1];
 			x += 1;
 			while (true)
 			{
-				// ·í²Ä¤@¦¸¹J¨ì != 0¡A°±¤î¡C
+				// ç•¶ç¬¬ä¸€æ¬¡é‡åˆ° != 0ï¼Œåœæ­¢ã€‚
 				if (chessBoard[x][y] != 0)
 				{
 					break;
 				}
-				// ·í²Ä¤@¦¸¹J¨ìÃä¬É¡A°±¤î¡C
+				// ç•¶ç¬¬ä¸€æ¬¡é‡åˆ°é‚Šç•Œï¼Œåœæ­¢ã€‚
 				else if (x == 9)
 				{
 					temp = { x, y };
 					legalList.push_back(temp);
 					break;
 				}
-				// Ä~Äò¨«
+				// ç¹¼çºŒèµ°
 				else
 				{
 					temp = { x, y };
@@ -550,20 +550,20 @@ vector<vector<int>> Chess::whereCanGO(vector<int>pos)
 					x++;
 				}
 			}
-			// ¦pªG¤£¬OÃä¬É«hÄ~Äò§ä¥i¥H¦Yªº´Ñ¤l¡C
+			// å¦‚æœä¸æ˜¯é‚Šç•Œå‰‡ç¹¼çºŒæ‰¾å¯ä»¥åƒçš„æ£‹å­ã€‚
 			if (x != 9)
 			{
 				while (true)
 				{
 					x++;
-					// ¦pªG¬O¬õ¦â¤è«h¥i¥H¦Y¡A°±¤î
+					// å¦‚æœæ˜¯ç´…è‰²æ–¹å‰‡å¯ä»¥åƒï¼Œåœæ­¢
 					if (chessBoard[x][y] >= 8 && chessBoard[x][y] <= 14)
 					{
 						temp = { x, y };
 						legalList.push_back(temp);
 						break;
 					}
-					// ¦pªG¹J¨ìÃä¬É³£¨S¦³¡A°±¤î
+					// å¦‚æœé‡åˆ°é‚Šç•Œéƒ½æ²’æœ‰ï¼Œåœæ­¢
 					else if (x == 9)
 					{
 						break;
@@ -572,9 +572,9 @@ vector<vector<int>> Chess::whereCanGO(vector<int>pos)
 			}
 			break;
 		}
-		case 7:  //¨ò
+		case 7:  //å’
 		{
-			// ¦³¹Lªe
+			// æœ‰éæ²³
 			if (pos[0] >= 5)
 			{
 				if (pos[0] + 1 <= 9)
@@ -607,7 +607,457 @@ vector<vector<int>> Chess::whereCanGO(vector<int>pos)
 	}
 	else if (whoseTurn == 1)
 	{
-		
+	vector<int>temp(2);
+	switch (chessBoard[pos[0]][pos[1]]-7)
+	{
+
+	case 1:  //å¸¥
+	{
+		for (int i = max(pos[0] - 1, 7); i <= min(pos[0] + 1, 9); i++)
+		{
+			for (int j = max(pos[1] - 1, 3); j <= min(pos[1] + 1, 5); j++)
+			{
+				if (chessBoard[i][j] == 0 ||
+					(chessBoard[i][j] >= 1 && chessBoard[i][j] <= 7))
+				{
+					legalList.push_back({ i,j });
+				}
+			}
+		}
+		break;
+	}
+	case 2:  //ä»•
+	{
+		if (pos[0] == 9)
+		{
+			if (chessBoard[8][4] == 0 ||
+				(chessBoard[8][4] >= 1 && chessBoard[8][4] <= 7))
+			{
+				legalList.push_back({ 8, 4 });
+			}
+		}
+		else if (pos[0] == 8)
+		{
+			if (chessBoard[9][3] == 0 ||
+				(chessBoard[9][3] >= 1 && chessBoard[9][3] <= 7))
+			{
+				legalList.push_back({ 9, 3 });
+			}
+			if (chessBoard[9][5] == 0 ||
+				(chessBoard[9][5] >= 1 && chessBoard[9][5] <= 7))
+			{
+				legalList.push_back({ 9, 5 });
+			}
+			if (chessBoard[7][3] == 0 ||
+				(chessBoard[7][3] >= 1 && chessBoard[7][3] <= 7))
+			{
+				legalList.push_back({ 7, 3 });
+			}
+			if (chessBoard[7][5] == 0 ||
+				(chessBoard[7][5] >= 1 && chessBoard[7][5] <= 7))
+			{
+				legalList.push_back({ 7, 5 });
+			}
+		}
+		else if (pos[0] == 7)
+		{
+			if (chessBoard[8][4] == 0 ||
+				(chessBoard[8][4] >= 1 && chessBoard[8][4] <= 7))
+			{
+				legalList.push_back({ 8, 4 });
+			}
+		}
+		break;
+	}
+	case 3:  //ç›¸
+	{
+		for (int i = max(pos[0] - 2, 5); i <= min(pos[0] + 2, 9); i += 2)
+		{
+			for (int j = max(pos[1] - 2, 0); j <= min(pos[1] + 2, 8); j += 2)
+			{
+				if ((chessBoard[i][j] == 0 ||
+					(chessBoard[i][j] >= 1 && chessBoard[i][j] <= 7)))
+				{
+					if (i < pos[0] && j < pos[1])
+					{
+						if (chessBoard[i + 1][j + 1] == 0)
+						{
+							legalList.push_back({ i,j });
+						}
+					}
+					else if (i < pos[0] && j > pos[1])
+					{
+						if (chessBoard[i + 1][j - 1] == 0)
+						{
+							legalList.push_back({ i,j });
+						}
+					}
+					else if (i > pos[0] && j < pos[1])
+					{
+						if (chessBoard[i - 1][j + 1] == 0)
+						{
+							legalList.push_back({ i,j });
+						}
+					}
+					else if (i > pos[0] && j > pos[1])
+					{
+						if (chessBoard[i - 1][j - 1] == 0)
+						{
+							legalList.push_back({ i,j });
+						}
+					}
+				}
+			}
+		}
+		break;
+	}
+	case 4:	 //ä¿¥
+	{
+		int i = pos[1], j = pos[2];
+		while (i >= 0)
+		{
+			if (legalList[i][j] >= 8 && legalList[i][j] <= 14)
+				break;
+			else if (legalList[i][j] >= 1 && legalList[i][j] <= 7)
+			{
+				legalList.push_back({ i,j });
+				break;
+			}
+			else
+			{
+				legalList.push_back({ i,j });
+			}
+			i--;
+		}
+		while (i <= 9)
+		{
+			if (legalList[i][j] >= 8 && legalList[i][j] <= 17)
+				break;
+			else if (legalList[i][j] >= 1 && legalList[i][j] <= 7)
+			{
+				legalList.push_back({ i,j });
+				break;
+			}
+			else
+			{
+				legalList.push_back({ i,j });
+			}
+			i++;
+		}
+		while (i <= 9)
+		{
+			if (legalList[i][j] >= 8 && legalList[i][j] <= 14)
+				break;
+			else if (legalList[i][j] >= 1 && legalList[i][j] <= 7)
+			{
+				legalList.push_back({ i,j });
+				break;
+			}
+			else
+			{
+				legalList.push_back({ i,j });
+			}
+			i++;
+		}
+		while (j >= 0)
+		{
+			if (legalList[i][j] >= 8 && legalList[i][j] <= 14)
+				break;
+			else if (legalList[i][j] >= 1 && legalList[i][j] <= 7)
+			{
+				legalList.push_back({ i,j });
+				break;
+			}
+			else
+			{
+				legalList.push_back({ i,j });
+			}
+			j--;
+		}
+		while (j <= 9)
+		{
+			if (legalList[i][j] >= 8 && legalList[i][j] <= 14)
+				break;
+			else if (legalList[i][j] >= 1 && legalList[i][j] <= 7)
+			{
+				legalList.push_back({ i,j });
+				break;
+			}
+			else
+			{
+				legalList.push_back({ i,j });
+			}
+			j++;
+		}
+		break;
+	}
+	case 5:  //å‚Œ
+	{
+		if (pos[0] - 1 >= 1 && chessBoard[pos[0] - 1][pos[1]] == 0)
+		{
+			if (chessBoard[pos[0] - 2][pos[1] - 1] == 0 ||
+				(chessBoard[pos[0] - 2][pos[1] - 1] >= 1 && chessBoard[pos[0] - 2][pos[1] - 1] <= 7))
+			{
+				legalList.push_back({ pos[0] - 2,pos[1] - 1 });
+			}
+			if (chessBoard[pos[0] - 2][pos[1] + 1] == 0 ||
+				(chessBoard[pos[0] - 2][pos[1] + 1] >= 1 && chessBoard[pos[0] - 2][pos[1] + 1] <= 7))
+			{
+				legalList.push_back({ pos[0] - 2,pos[1] + 1 });
+			}
+		}
+		if (pos[0] + 1 <= 8 && chessBoard[pos[0 + 1]][pos[1]] == 0)
+		{
+			if (chessBoard[pos[0] + 2][pos[1] - 1] == 0 ||
+				(chessBoard[pos[0] + 2][pos[1] - 1] >= 1 && chessBoard[pos[0] + 2][pos[1] - 1] <= 7))
+			{
+				legalList.push_back({ pos[0] + 2,pos[1] - 1 });
+			}
+			if (chessBoard[pos[0] + 2][pos[1] + 1] == 0 ||
+				(chessBoard[pos[0] + 2][pos[1] + 1] >= 1 && chessBoard[pos[0] + 2][pos[1] + 1] <= 7))
+			{
+				legalList.push_back({ pos[0] + 2,pos[1] + 1 });
+			}
+		}
+		if (pos[1] - 1 >= 1 && chessBoard[pos[0]][pos[1] - 1] == 0)
+		{
+			if (chessBoard[pos[0] - 1][pos[1] - 2] == 0 ||
+				(chessBoard[pos[0] - 1][pos[1] - 2] >= 1 && chessBoard[pos[0] - 1][pos[1] - 2] <= 7))
+			{
+				legalList.push_back({ pos[0] - 1,pos[1] - 2 });
+			}
+			if (chessBoard[pos[0] + 1][pos[1] - 2] == 0 ||
+				(chessBoard[pos[0] + 1][pos[1] - 2] >= 1 && chessBoard[pos[0] + 1][pos[1] - 2] <= 7))
+			{
+				legalList.push_back({ pos[0] + 1,pos[1] - 2 });
+			}
+		}
+		if (pos[1] + 1 <= 7 && chessBoard[pos[0]][pos[1] + 1] == 0)
+		{
+			if (chessBoard[pos[0] - 1][pos[1] + 2] == 0 ||
+				(chessBoard[pos[0] - 1][pos[1] + 2] >= 1 && chessBoard[pos[0] - 1][pos[1] + 2] <= 7))
+			{
+				legalList.push_back({ pos[0] - 1,pos[1] + 2 });
+			}
+			if (chessBoard[pos[0] + 1][pos[1] + 2] == 0 ||
+				(chessBoard[pos[0] + 1][pos[1] + 2] >= 1 && chessBoard[pos[0] + 1][pos[1] + 2] <= 7))
+			{
+				legalList.push_back({ pos[0] + 1,pos[1] + 2 });
+			}
+		}
+		break;
+	}
+	case 6:  //ç‚®
+	{
+		// å‘å·¦èµ°
+		int x = pos[0];
+		int y = pos[1];
+		y -= 1;
+		while (true)
+		{
+			// ç•¶ç¬¬ä¸€æ¬¡é‡åˆ° != 0ï¼Œåœæ­¢ã€‚
+			if (chessBoard[x][y] != 0)
+			{
+				break;
+			}
+			// ç•¶ç¬¬ä¸€æ¬¡é‡åˆ°é‚Šç•Œï¼Œåœæ­¢ã€‚
+			else if (y == 0)
+			{
+				temp = { x, y };
+				legalList.push_back(temp);
+				break;
+			}
+			// ç¹¼çºŒèµ°ï¼Œä¸¦åŠ å…¥åˆ°legalListã€‚
+			else
+			{
+				temp = { x, y };
+				legalList.push_back(temp);
+				y--;
+			}
+		}
+		// å¦‚æœä¸æ˜¯é‚Šç•Œå‰‡ç¹¼çºŒæ‰¾å¯ä»¥åƒçš„æ£‹å­ã€‚
+		if (y != 0)
+		{
+			while (true)
+			{
+				y--;
+				// å¦‚æœæ˜¯é»‘è‰²æ–¹å‰‡å¯ä»¥åƒï¼Œåœæ­¢
+				if (chessBoard[x][y] >= 1 && chessBoard[x][y] <= 7)
+				{
+					temp = { x, y };
+					legalList.push_back(temp);
+					break;
+				}
+				// å¦‚æœé‡åˆ°é‚Šç•Œéƒ½æ²’æœ‰ï¼Œåœæ­¢
+				else if (y == 0)
+				{
+					break;
+				}
+			}
+		}
+
+		// å‘å³èµ°
+		x = pos[0];
+		y = pos[1];
+		y += 1;
+		while (true)
+		{
+			if (chessBoard[x][y] != 0)
+			{
+				break;
+			}
+			else if (y == 8)
+			{
+				temp = { x, y };
+				legalList.push_back(temp);
+				break;
+			}
+			else
+			{
+				temp = { x, y };
+				legalList.push_back(temp);
+				y++;
+			}
+		}
+		if (y != 8)
+		{
+			while (true)
+			{
+				y++;
+				if (chessBoard[x][y] >= 1 && chessBoard[x][y] <= 7)
+				{
+					temp = { x, y };
+					legalList.push_back(temp);
+					break;
+				}
+				else if (y == 8)
+				{
+					break;
+				}
+			}
+		}
+
+		// å‘ä¸Šèµ°
+		x = pos[0];
+		y = pos[1];
+		x -= 1;
+		while (true)
+		{
+			if (chessBoard[x][y] != 0)
+			{
+				break;
+			}
+			else if (x == 0)
+			{
+				temp = { x, y };
+				legalList.push_back(temp);
+				break;
+			}
+			else
+			{
+				temp = { x, y };
+				legalList.push_back(temp);
+				x--;
+			}
+		}
+		if (x != 0)
+		{
+			while (true)
+			{
+				x--;
+				if (chessBoard[x][y] >= 1 && chessBoard[x][y] <= 7)
+				{
+					temp = { x, y };
+					legalList.push_back(temp);
+					break;
+				}
+				else if (x == 0)
+				{
+					break;
+				}
+			}
+		}
+
+		// å‘ä¸‹èµ°
+		x = pos[0];
+		y = pos[1];
+		x += 1;
+		while (true)
+		{
+			// ç•¶ç¬¬ä¸€æ¬¡é‡åˆ° != 0ï¼Œåœæ­¢ã€‚
+			if (chessBoard[x][y] != 0)
+			{
+				break;
+			}
+			// ç•¶ç¬¬ä¸€æ¬¡é‡åˆ°é‚Šç•Œï¼Œåœæ­¢ã€‚
+			else if (x == 9)
+			{
+				temp = { x, y };
+				legalList.push_back(temp);
+				break;
+			}
+			// ç¹¼çºŒèµ°
+			else
+			{
+				temp = { x, y };
+				legalList.push_back(temp);
+				x++;
+			}
+		}
+		// å¦‚æœä¸æ˜¯é‚Šç•Œå‰‡ç¹¼çºŒæ‰¾å¯ä»¥åƒçš„æ£‹å­ã€‚
+		if (x != 9)
+		{
+			while (true)
+			{
+				x++;
+				// å¦‚æœæ˜¯é»‘è‰²æ–¹å‰‡å¯ä»¥åƒï¼Œåœæ­¢
+				if (chessBoard[x][y] >= 1 && chessBoard[x][y] <= 7)
+				{
+					temp = { x, y };
+					legalList.push_back(temp);
+					break;
+				}
+				// å¦‚æœé‡åˆ°é‚Šç•Œéƒ½æ²’æœ‰ï¼Œåœæ­¢
+				else if (x == 9)
+				{
+					break;
+				}
+			}
+		}
+		break;
+	}
+	case 7:  //å’
+	{
+		// æœ‰éæ²³
+		if (pos[0] <= 4)
+		{
+			if (pos[0] + 1 >= 0)
+			{
+				temp = { pos[0] + 1,pos[1] };
+				legalList.push_back(temp);
+			}
+			if (pos[1] - 1 >= 0)
+			{
+				temp = { pos[0],pos[1] - 1 };
+				legalList.push_back(temp);
+			}
+			if (pos[1] + 1 >= 8)
+			{
+				temp = { pos[0],pos[1] + 1 };
+				legalList.push_back(temp);
+			}
+			break;
+		}
+		else if (pos[0] >= 5)
+		{
+			temp = { pos[0] - 1,pos[1] };
+			legalList.push_back(temp);
+			break;
+		}
+	}
+	default:
+		break;
+	}
 	}
 	else
 	{
