@@ -16,12 +16,15 @@ int main()
 	while (true)
 	{
 		vector<int>currentPosition = {};
+		vector<vector<int>>legal = { {} };
 		currentPosition = mainChess.selectedChess();
-		mainChess.whereCanGO(currentPosition);
+		legal = mainChess.whereCanGO(currentPosition);
 		// 提示可下的位置
-		//GUI.showHint(mainChess.selectedChess());
+		//GUI.showHint(legal);
 
 		// 移動棋子、改棋盤，畫出棋盤
+		mainChess.moveChess(currentPosition);
+		mainChess.nextPlayer();
 		// 記棋譜
 		//GUI.renewChess(mainChess.moveChess());
 	}

@@ -13,7 +13,7 @@ private:
 	vector<string>rightPart;
 public:
 	//friend class Chess;
-	void showHint(vector<int>pos);
+	void showHint(vector<vector<int>>legalMove);
 	void renewChess(vector<int>pos)
 	{
 		// modify Chess.chessBoard

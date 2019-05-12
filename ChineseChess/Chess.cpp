@@ -31,15 +31,8 @@ Chess::Chess(string filename)
 	fin.close();
 }
 
-
 vector<int> Chess::selectedChess()
 {
-	// 游標移動 "至" (x, y)  
-	void gotoxy(int x, int y);
-	
-	// 設定游標的樣式
-	void SetCursorVisible(BOOL _bVisible, DWORD _dwSize);
-	
 	// 以下程式碼是移動游標
 	unsigned short int ch1, ch2;
 	unsigned short int X = 0, Y = 0;
@@ -169,6 +162,21 @@ vector<vector<int>> Chess::whereCanGO(vector<int>pos)
 						legalList.push_back({ i,j });
 					}
 				}
+			}
+			//王見王規則
+			int m = pos[1]+1;
+			while (m <= 9)
+			{
+				if (chessBoard[m][pos[1]] == 0)
+				{
+					m += 1;
+				}
+				else if (chessBoard[m][pos[1]] == 8)
+				{
+					legalList.push_back({ m,pos[1] });
+					break;
+				}
+				else break;
 			}
 			break;
 		}
@@ -624,6 +632,21 @@ vector<vector<int>> Chess::whereCanGO(vector<int>pos)
 				}
 			}
 		}
+		//王見王規則
+		int m = pos[1] - 1;
+		while (m >= 0)
+		{
+			if (chessBoard[m][pos[1]] == 0)
+			{
+				m -= 1;
+			}
+			else if (chessBoard[m][pos[1]] == 1)
+			{
+				legalList.push_back({ m,pos[1] });
+				break;
+			}
+			else break;
+		}
 		break;
 	}
 	case 2:  //仕
@@ -1063,5 +1086,303 @@ vector<vector<int>> Chess::whereCanGO(vector<int>pos)
 	{
 		cout << "Can't find player" << endl;
 	}
+	legalMoveSpace = legalList;
 	return legalList;
+}
+
+vector<int> Chess::moveChess(vector<int>pos)
+{
+	// 以下程式碼是移動游標
+	unsigned short int ch1, ch2;
+	unsigned short int X = 0, Y = 0;
+
+	// 200 是變成橫向游標  (你可以試試看	SetCursorVisible(TRUE, 100);)
+	SetCursorVisible(TRUE, 200);
+	X = 0+4*pos[0];
+	Y = 1+2*pos[1];
+	COORD coordInData;
+	coordInData = { pos[0], pos[1] };
+	int func;
+before:
+	while (true)
+	{
+		ch1 = _getch();
+		if (ch1 == ESC)
+		{
+			func = ESC;
+			break;
+		}
+		else if (ch1 == DIRECTION_KEYBOARD)
+		{
+			ch2 = _getch();
+			switch (ch2)
+			{
+			case UP:
+				if (Y == 1)
+					break;
+				Y = Y - 2;
+				gotoxy(X, Y);
+				coordInData.X -= 1;
+				break;
+			case DOWN:
+				if (Y == 19)
+					break;
+				Y = Y + 2;
+				gotoxy(X, Y);
+				coordInData.X += 1;
+				break;
+			case LEFT:
+				if (X == 0)
+					break;
+				X = X - 4;
+				gotoxy(X, Y);
+				coordInData.Y -= 1;
+				break;
+			case RIGHT:
+				if (X == 32)
+					break;
+				X = X + 4;
+				gotoxy(X, Y);
+				coordInData.Y += 1;
+				break;
+			case ENTER:
+				func = ENTER;
+				goto after;
+				break;
+			}
+
+		}
+		else if (ch1 == ENTER)
+		{
+			func = ENTER;
+			goto after;
+		}
+	}
+
+after:
+	vector<int> moveTo = { coordInData.X,coordInData.Y };
+	vector<int> position = { -1,-1 };
+	switch (func)
+	{
+	case ESC:
+		return position;
+		break;
+	case ENTER:
+		if (find(legalMoveSpace.begin(), legalMoveSpace.end(), moveTo) != legalMoveSpace.end())
+		{
+			recordChessStep(pos, moveTo);
+			position = moveTo;
+			chessBoard[moveTo[0]][moveTo[1]] = chessBoard[pos[0]][pos[1]];
+			chessBoard[pos[0]][pos[1]] = 0;
+			chessRecord.push_back(chessBoard);
+			return position;
+		}
+		else goto before;
+	default:
+		goto before;
+		break;
+	}
+
+}
+
+void Chess::readBoard(string filename)
+{
+	chessBoard = {};
+	ifstream fin(filename);
+	for (int i = 0; i < 10; i++)
+	{
+		vector<int> temp = {};
+		for (int j = 0; j < 9; j++)
+		{
+			int chess;
+			fin >> chess;
+			temp.push_back(chess);
+		}
+		chessBoard.push_back(temp);
+	}
+	fin >> whoseTurn;
+	fin.close();
+}
+
+void Chess::saveBoard(string filename)
+{
+	ofstream fout(filename);
+	for (int i = 0; i < 10; i++)
+	{
+		for (int j = 0; j < 9; j++)
+		{
+			fout << chessBoard[i][j] << " ";
+		}
+		fout << "\n";
+	}
+	fout << whoseTurn;
+	fout.flush();
+	fout.close();
+}
+
+void Chess::nextPlayer()
+{
+	if (whoseTurn == 0)
+	{
+		whoseTurn = 1;
+	}
+	else if (whoseTurn == 1)
+	{
+		whoseTurn = 0;
+	}
+	else
+	{
+		system("cls");
+		cout << "Error: Can't find next player" << endl;
+	}
+}
+
+void Chess::recordChessStep(vector<int>ori, vector<int>des)
+{
+	// １紅：炮八平五　　　║//文字後 全全全║半
+	vector<string>fullA;
+	vector<string>fullC;
+	fullA = { "０","１","２","３","４","５","６","７","８","９" };
+	fullC = { "零","一","二","三","四","五","六","七","八","九" };
+	stringstream step("║ 　");
+	stepNumber += 1;
+	vector<int>num;
+	while (stepNumber > 0)
+	{
+		num.push_back(stepNumber % 10);
+		stepNumber /= 10;
+	}
+	for (int i = num.size() - 1; i >= 0; i--)
+	{
+		step << fullA[num[i]];
+	}
+	if (whoseTurn == 0)
+	{
+		step << "黑：";
+		switch (chessBoard[ori[0]][ori[1]])
+		{
+		case 1:
+		{
+			step << "將" << fullA[ori[1] + 1];
+			if (des[0] > ori[0])
+			{
+				step << "進" << fullA[des[0] - ori[0]];
+			}
+			else if (des[0] < ori[0])
+			{
+				step << "退" << fullA[ori[0] - des[0]];
+			}
+			else
+			{
+				step << "平" << fullA[des[1] + 1];
+			}
+			break;
+		}
+		case 2:
+		{
+			step << "士" << fullA[ori[1] + 1];
+			if (des[0] > ori[0])
+			{
+				step << "進" << fullA[des[1] + 1];
+			}
+			else if (des[0] < ori[0])
+			{
+				step << "退" << fullA[des[1] + 1];
+			}
+			else break;
+			break;
+		}
+
+		case 3:
+		{
+			step << "象" << fullA[ori[1] + 1];
+			if (des[0] > ori[0])
+			{
+				step << "進" << fullA[des[1] + 1];
+			}
+			else if (des[0] < ori[0])
+			{
+				step << "退" << fullA[des[1] + 1];
+			}
+			else break;
+			break;
+		}
+
+		case 4:
+		{
+			step << "車" << fullA[ori[1] + 1];
+			if (des[0] > ori[0])
+			{
+				step << "進" << fullA[des[0] - ori[0]];
+			}
+			else if (des[0] < ori[0])
+			{
+				step << "退" << fullA[ori[0] - des[0]];
+			}
+			else
+			{
+				step << "平" << fullA[des[1] + 1];
+			}
+			break;
+		}
+
+		case 5:
+		{
+			step << "馬" << fullA[ori[1] + 1];
+			if (des[0] > ori[0])
+			{
+				step << "進" << fullA[des[1] + 1];
+			}
+			else if (des[0] < ori[0])
+			{
+				step << "退" << fullA[des[1] + 1];
+			}
+			else break;
+			break;
+		}
+
+		case 6:
+		{
+			step << "包" << fullA[ori[1] + 1];
+			if (des[0] > ori[0])
+			{
+				step << "進" << fullA[des[0] - ori[0]];
+			}
+			else if (des[0] < ori[0])
+			{
+				step << "退" << fullA[ori[0] - des[0]];
+			}
+			else
+			{
+				step << "平" << fullA[des[1] + 1];
+			}
+			break;
+		}
+
+		case 7:
+		{
+			step << "卒" << fullA[ori[1] + 1];
+			if (des[0] > ori[0])
+			{
+				step << "進" << fullA[des[0] - ori[0]];
+			}
+			else if (des[0] < ori[0])
+			{
+				step << "退" << fullA[ori[0] - des[0]];
+			}
+			else
+			{
+				step << "平" << fullA[des[1] + 1];
+			}
+			break;
+		}
+		default:
+			break;
+		}
+	}
+	
+	step << "　　　║ ";
+	string res;
+	step >> res;
+	chessStep.push_back(res);
 }
