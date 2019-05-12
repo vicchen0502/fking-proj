@@ -9,7 +9,7 @@ public:
 private:
 	vector<vector<vector<int>>> chessRecord; //¾ú¥v¬ö¿ýtable
 	vector<string> chessStep; //´ÑÃÐ
-	vector<COORD> leagelMoveSpace;
+	vector<COORD> legalMoveSpace;
 	int whoseTurn = 0;
 
 public:

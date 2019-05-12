@@ -150,31 +150,36 @@ afterselect:
 
 vector<vector<int>> Chess::whereCanGO(vector<int>pos)
 {
-	vector<vector<int>>leagelList;
+	vector<vector<int>>legalList;
 	if (whoseTurn == 0)
 	{
+		vector<int>temp(2);
 		switch (chessBoard[pos[0]][pos[1]])
 		{
-		case 1://將
-			for (int i = max(pos[0]-1,0); i <= min(pos[0]+1,2); i++)
+
+		case 1:  //將
+		{
+			for (int i = max(pos[0] - 1, 0); i <= min(pos[0] + 1, 2); i++)
 			{
-				for (int j = max(pos[1]-1,3); j <= min(pos[1]+1,5); j++)
+				for (int j = max(pos[1] - 1, 3); j <= min(pos[1] + 1, 5); j++)
 				{
 					if (chessBoard[i][j] == 0 ||
 						(chessBoard[i][j] >= 8 && chessBoard[i][j] <= 14))
 					{
-						leagelList.push_back({ i,j });
+						legalList.push_back({ i,j });
 					}
 				}
 			}
 			break;
-		case 2://士
+		}
+		case 2:  //士
+		{
 			if (pos[0] == 0)
 			{
 				if (chessBoard[1][4] == 0 ||
 					(chessBoard[1][4] >= 8 && chessBoard[1][4] <= 14))
 				{
-					leagelList.push_back({ 1, 4 });
+					legalList.push_back({ 1, 4 });
 				}
 			}
 			else if (pos[0] == 1)
@@ -182,22 +187,22 @@ vector<vector<int>> Chess::whereCanGO(vector<int>pos)
 				if (chessBoard[0][3] == 0 ||
 					(chessBoard[0][3] >= 8 && chessBoard[0][3] <= 14))
 				{
-					leagelList.push_back({ 0, 3 });
+					legalList.push_back({ 0, 3 });
 				}
 				if (chessBoard[0][5] == 0 ||
 					(chessBoard[0][5] >= 8 && chessBoard[0][5] <= 14))
 				{
-					leagelList.push_back({ 0, 5 });
+					legalList.push_back({ 0, 5 });
 				}
 				if (chessBoard[2][3] == 0 ||
 					(chessBoard[2][3] >= 8 && chessBoard[2][3] <= 14))
 				{
-					leagelList.push_back({ 2, 3 });
+					legalList.push_back({ 2, 3 });
 				}
 				if (chessBoard[2][5] == 0 ||
 					(chessBoard[2][5] >= 8 && chessBoard[2][5] <= 14))
 				{
-					leagelList.push_back({ 2, 5 });
+					legalList.push_back({ 2, 5 });
 				}
 			}
 			else if (pos[0] == 2)
@@ -205,141 +210,408 @@ vector<vector<int>> Chess::whereCanGO(vector<int>pos)
 				if (chessBoard[1][5] == 0 ||
 					(chessBoard[1][5] >= 8 && chessBoard[1][5] <= 14))
 				{
-					leagelList.push_back({ 1, 4 });
+					legalList.push_back({ 1, 4 });
 				}
 			}
 			break;
-		case 3://象
+		}
+		case 3:  //象
+		{
 			for (int i = max(pos[0] - 2, 0); i <= min(pos[0] + 2, 4); i += 2)
 			{
 				for (int j = max(pos[1] - 2, 0); j <= min(pos[1] + 2, 8); j += 2)
 				{
 					if ((chessBoard[i][j] == 0 ||
-					    (chessBoard[i][j] >= 8 && chessBoard[i][j] <= 14))						)
+						(chessBoard[i][j] >= 8 && chessBoard[i][j] <= 14)))
 					{
 						if (i < pos[0] && j < pos[1])
 						{
 							if (chessBoard[i + 1][j + 1] == 0)
 							{
-								leagelList.push_back({ i,j });
+								legalList.push_back({ i,j });
 							}
 						}
 						else if (i < pos[0] && j > pos[1])
 						{
 							if (chessBoard[i + 1][j - 1] == 0)
 							{
-								leagelList.push_back({ i,j });
+								legalList.push_back({ i,j });
 							}
 						}
 						else if (i > pos[0] && j < pos[1])
 						{
 							if (chessBoard[i - 1][j + 1] == 0)
 							{
-								leagelList.push_back({ i,j });
+								legalList.push_back({ i,j });
 							}
 						}
 						else if (i > pos[0] && j > pos[1])
 						{
 							if (chessBoard[i - 1][j - 1] == 0)
 							{
-								leagelList.push_back({ i,j });
+								legalList.push_back({ i,j });
 							}
 						}
 					}
 				}
 			}
 			break;
-		case 4://車
+		}
+		case 4:	 //車
+		{
 			int i = pos[1], j = pos[2];
-			while(i>=0)
+			while (i >= 0)
 			{
-				if (leagelList[i][j] >= 1 && leagelList[i][j] <= 7)
+				if (legalList[i][j] >= 1 && legalList[i][j] <= 7)
 					break;
-				else if (leagelList[i][j] >= 8 && leagelList[i][j] <= 14)
+				else if (legalList[i][j] >= 8 && legalList[i][j] <= 14)
 				{
-					leagelList.push_back({ i,j });
+					legalList.push_back({ i,j });
 					break;
 				}
 				else
 				{
-					leagelList.push_back({ i,j });
+					legalList.push_back({ i,j });
 				}
 				i--;
 			}
 			while (i <= 9)
 			{
-				if (leagelList[i][j] >= 1 && leagelList[i][j] <= 7)
+				if (legalList[i][j] >= 1 && legalList[i][j] <= 7)
 					break;
-				else if (leagelList[i][j] >= 8 && leagelList[i][j] <= 14)
+				else if (legalList[i][j] >= 8 && legalList[i][j] <= 14)
 				{
-					leagelList.push_back({ i,j });
+					legalList.push_back({ i,j });
 					break;
 				}
 				else
 				{
-					leagelList.push_back({ i,j });
+					legalList.push_back({ i,j });
 				}
 				i++;
 			}
 			while (i <= 9)
 			{
-				if (leagelList[i][j] >= 1 && leagelList[i][j] <= 7)
+				if (legalList[i][j] >= 1 && legalList[i][j] <= 7)
 					break;
-				else if (leagelList[i][j] >= 8 && leagelList[i][j] <= 14)
+				else if (legalList[i][j] >= 8 && legalList[i][j] <= 14)
 				{
-					leagelList.push_back({ i,j });
+					legalList.push_back({ i,j });
 					break;
 				}
 				else
 				{
-					leagelList.push_back({ i,j });
+					legalList.push_back({ i,j });
 				}
 				i++;
 			}
 			while (j >= 0)
 			{
-				if (leagelList[i][j] >= 1 && leagelList[i][j] <= 7)
+				if (legalList[i][j] >= 1 && legalList[i][j] <= 7)
 					break;
-				else if (leagelList[i][j] >= 8 && leagelList[i][j] <= 14)
+				else if (legalList[i][j] >= 8 && legalList[i][j] <= 14)
 				{
-					leagelList.push_back({ i,j });
+					legalList.push_back({ i,j });
 					break;
 				}
 				else
 				{
-					leagelList.push_back({ i,j });
+					legalList.push_back({ i,j });
 				}
 				j--;
 			}
 			while (j <= 9)
 			{
-				if (leagelList[i][j] >= 1 && leagelList[i][j] <= 7)
+				if (legalList[i][j] >= 1 && legalList[i][j] <= 7)
 					break;
-				else if (leagelList[i][j] >= 8 && leagelList[i][j] <= 14)
+				else if (legalList[i][j] >= 8 && legalList[i][j] <= 14)
 				{
-					leagelList.push_back({ i,j });
+					legalList.push_back({ i,j });
 					break;
 				}
 				else
 				{
-					leagelList.push_back({ i,j });
+					legalList.push_back({ i,j });
 				}
 				j++;
 			}
 			break;
-		case 5://馬
+		}
+		case 5:  //馬
+		{
+			if (pos[0] - 1 >= 1 && chessBoard[pos[0] - 1][pos[1]] == 0)
+			{
+				if (chessBoard[pos[0] - 2][pos[1] - 1] == 0 ||
+					(chessBoard[pos[0] - 2][pos[1] - 1] >= 8 && chessBoard[pos[0] - 2][pos[1] - 1] <= 14))
+				{
+					legalList.push_back({ pos[0] - 2,pos[1] - 1 });
+				}
+				if (chessBoard[pos[0] - 2][pos[1] + 1] == 0 ||
+					(chessBoard[pos[0] - 2][pos[1] + 1] >= 8 && chessBoard[pos[0] - 2][pos[1] + 1] <= 14))
+				{
+					legalList.push_back({ pos[0] - 2,pos[1] + 1 });
+				}
+			}
+			if (pos[0] + 1 <= 8 && chessBoard[pos[0 + 1]][pos[1]] == 0)
+			{
+				if (chessBoard[pos[0] + 2][pos[1] - 1] == 0 ||
+					(chessBoard[pos[0] + 2][pos[1] - 1] >= 8 && chessBoard[pos[0] + 2][pos[1] - 1] <= 14))
+				{
+					legalList.push_back({ pos[0] + 2,pos[1] - 1 });
+				}
+				if (chessBoard[pos[0] + 2][pos[1] + 1] == 0 ||
+					(chessBoard[pos[0] + 2][pos[1] + 1] >= 8 && chessBoard[pos[0] + 2][pos[1] + 1] <= 14))
+				{
+					legalList.push_back({ pos[0] + 2,pos[1] + 1 });
+				}
+			}
+			if (pos[1] - 1 >= 1 && chessBoard[pos[0]][pos[1] - 1] == 0)
+			{
+				if (chessBoard[pos[0] - 1][pos[1] - 2] == 0 ||
+					(chessBoard[pos[0] - 1][pos[1] - 2] >= 8 && chessBoard[pos[0] - 1][pos[1] - 2] <= 14))
+				{
+					legalList.push_back({ pos[0] - 1,pos[1] - 2 });
+				}
+				if (chessBoard[pos[0] + 1][pos[1] - 2] == 0 ||
+					(chessBoard[pos[0] + 1][pos[1] - 2] >= 8 && chessBoard[pos[0] + 1][pos[1] - 2] <= 14))
+				{
+					legalList.push_back({ pos[0] + 1,pos[1] - 2 });
+				}
+			}
+			if (pos[1] + 1 <= 7 && chessBoard[pos[0]][pos[1] + 1] == 0)
+			{
+				if (chessBoard[pos[0] - 1][pos[1] + 2] == 0 ||
+					(chessBoard[pos[0] - 1][pos[1] + 2] >= 8 && chessBoard[pos[0] - 1][pos[1] + 2] <= 14))
+				{
+					legalList.push_back({ pos[0] - 1,pos[1] + 2 });
+				}
+				if (chessBoard[pos[0] + 1][pos[1] + 2] == 0 ||
+					(chessBoard[pos[0] + 1][pos[1] + 2] >= 8 && chessBoard[pos[0] + 1][pos[1] + 2] <= 14))
+				{
+					legalList.push_back({ pos[0] + 1,pos[1] + 2 });
+				}
+			}
+			break;
+		}
+		case 6:  //炮
+		{
+			// 向左走
+			int x = pos[0];
+			int y = pos[1];
+			y -= 1;
+			while (true)
+			{
+				// 當第一次遇到 != 0，停止。
+				if (chessBoard[x][y] != 0)
+				{
+					break;
+				}
+				// 當第一次遇到邊界，停止。
+				else if (y == 0)
+				{
+					temp = { x, y };
+					legalList.push_back(temp);
+					break;
+				}
+				// 繼續走，並加入到legalList。
+				else
+				{
+					temp = { x, y };
+					legalList.push_back(temp);
+					y--;
+				}
+			}
+			// 如果不是邊界則繼續找可以吃的棋子。
+			if (y != 0)
+			{
+				while (true)
+				{
+					y--;
+					// 如果是紅色方則可以吃，停止
+					if (chessBoard[x][y] >= 8 && chessBoard[x][y] <= 14)
+					{
+						temp = { x, y };
+						legalList.push_back(temp);
+						break;
+					}
+					// 如果遇到邊界都沒有，停止
+					else if (y == 0)
+					{
+						break;
+					}
+				}
+			}
 
+			// 向右走
+			x = pos[0];
+			y = pos[1];
+			y += 1;
+			while (true)
+			{
+				if (chessBoard[x][y] != 0)
+				{
+					break;
+				}
+				else if (y == 8)
+				{
+					temp = { x, y };
+					legalList.push_back(temp);
+					break;
+				}
+				else
+				{
+					temp = { x, y };
+					legalList.push_back(temp);
+					y++;
+				}
+			}
+			if (y != 8)
+			{
+				while (true)
+				{
+					y++;
+					if (chessBoard[x][y] >= 8 && chessBoard[x][y] <= 14)
+					{
+						temp = { x, y };
+						legalList.push_back(temp);
+						break;
+					}
+					else if (y == 8)
+					{
+						break;
+					}
+				}
+			}
+
+			// 向上走
+			x = pos[0];
+			y = pos[1];
+			x -= 1;
+			while (true)
+			{
+				if (chessBoard[x][y] != 0)
+				{
+					break;
+				}
+				else if (x == 0)
+				{
+					temp = { x, y };
+					legalList.push_back(temp);
+					break;
+				}
+				else
+				{
+					temp = { x, y };
+					legalList.push_back(temp);
+					x--;
+				}
+			}
+			if (x != 0)
+			{
+				while (true)
+				{
+					x--;
+					if (chessBoard[x][y] >= 8 && chessBoard[x][y] <= 14)
+					{
+						temp = { x, y };
+						legalList.push_back(temp);
+						break;
+					}
+					else if (x == 0)
+					{
+						break;
+					}
+				}
+			}
+
+			// 向下走
+			x = pos[0];
+			y = pos[1];
+			x += 1;
+			while (true)
+			{
+				// 當第一次遇到 != 0，停止。
+				if (chessBoard[x][y] != 0)
+				{
+					break;
+				}
+				// 當第一次遇到邊界，停止。
+				else if (x == 9)
+				{
+					temp = { x, y };
+					legalList.push_back(temp);
+					break;
+				}
+				// 繼續走
+				else
+				{
+					temp = { x, y };
+					legalList.push_back(temp);
+					x++;
+				}
+			}
+			// 如果不是邊界則繼續找可以吃的棋子。
+			if (x != 9)
+			{
+				while (true)
+				{
+					x++;
+					// 如果是紅色方則可以吃，停止
+					if (chessBoard[x][y] >= 8 && chessBoard[x][y] <= 14)
+					{
+						temp = { x, y };
+						legalList.push_back(temp);
+						break;
+					}
+					// 如果遇到邊界都沒有，停止
+					else if (x == 9)
+					{
+						break;
+					}
+				}
+			}
+			break;
+		}
+		case 7:  //卒
+		{
+			// 有過河
+			if (pos[0] >= 5)
+			{
+				if (pos[0] + 1 <= 9)
+				{
+					temp = { pos[0] + 1,pos[1] };
+					legalList.push_back(temp);
+				}
+				if (pos[1] - 1 >= 0)
+				{
+					temp = { pos[0],pos[1] - 1 };
+					legalList.push_back(temp);
+				}
+				if (pos[1] + 1 >= 8)
+				{
+					temp = { pos[0],pos[1] + 1 };
+					legalList.push_back(temp);
+				}
+				break;
+			}
+			else if (pos[0] <= 4)
+			{
+				temp = { pos[0] - 1,pos[1] };
+				legalList.push_back(temp);
+				break;
+			}
+		}
 		default:
 			break;
 		}
 	}
 	else if (whoseTurn == 1)
 	{
-
+		
 	}
 	else
 	{
 		cout << "Can't find player" << endl;
 	}
-	return leagelList;
+	return legalList;
 }
