@@ -149,7 +149,6 @@ vector<vector<int>> Chess::whereCanGO(vector<int>pos)
 		vector<int>temp(2);
 		switch (chessBoard[pos[0]][pos[1]])
 		{
-
 		case 1:  //將
 		{
 			for (int i = max(pos[0] - 1, 0); i <= min(pos[0] + 1, 2); i++)
@@ -615,12 +614,12 @@ vector<vector<int>> Chess::whereCanGO(vector<int>pos)
 	}
 	else if (whoseTurn == 1)
 	{
-	vector<int>temp(2);
-	switch (chessBoard[pos[0]][pos[1]]-7)
-	{
+		vector<int>temp(2);
+		switch (chessBoard[pos[0]][pos[1]]-7)
+		{
 
-	case 1:  //帥
-	{
+		case 1:  //帥
+		{
 		for (int i = max(pos[0] - 1, 7); i <= min(pos[0] + 1, 9); i++)
 		{
 			for (int j = max(pos[1] - 1, 3); j <= min(pos[1] + 1, 5); j++)
@@ -649,8 +648,8 @@ vector<vector<int>> Chess::whereCanGO(vector<int>pos)
 		}
 		break;
 	}
-	case 2:  //仕
-	{
+		case 2:  //仕
+		{
 		if (pos[0] == 9)
 		{
 			if (chessBoard[8][4] == 0 ||
@@ -692,8 +691,8 @@ vector<vector<int>> Chess::whereCanGO(vector<int>pos)
 		}
 		break;
 	}
-	case 3:  //相
-	{
+		case 3:  //相
+		{
 		for (int i = max(pos[0] - 2, 5); i <= min(pos[0] + 2, 9); i += 2)
 		{
 			for (int j = max(pos[1] - 2, 0); j <= min(pos[1] + 2, 8); j += 2)
@@ -734,8 +733,8 @@ vector<vector<int>> Chess::whereCanGO(vector<int>pos)
 		}
 		break;
 	}
-	case 4:	 //俥
-	{
+		case 4:	 //俥
+		{
 		int i = pos[1], j = pos[2];
 		while (i >= 0)
 		{
@@ -814,8 +813,8 @@ vector<vector<int>> Chess::whereCanGO(vector<int>pos)
 		}
 		break;
 	}
-	case 5:  //傌
-	{
+		case 5:  //傌
+		{
 		if (pos[0] - 1 >= 1 && chessBoard[pos[0] - 1][pos[1]] == 0)
 		{
 			if (chessBoard[pos[0] - 2][pos[1] - 1] == 0 ||
@@ -870,8 +869,8 @@ vector<vector<int>> Chess::whereCanGO(vector<int>pos)
 		}
 		break;
 	}
-	case 6:  //炮
-	{
+		case 6:  //炮
+		{
 		// 向左走
 		int x = pos[0];
 		int y = pos[1];
@@ -1049,8 +1048,8 @@ vector<vector<int>> Chess::whereCanGO(vector<int>pos)
 		}
 		break;
 	}
-	case 7:  //卒
-	{
+		case 7:  //卒
+		{
 		// 有過河
 		if (pos[0] <= 4)
 		{
@@ -1078,9 +1077,9 @@ vector<vector<int>> Chess::whereCanGO(vector<int>pos)
 			break;
 		}
 	}
-	default:
-		break;
-	}
+		default:
+			break;
+		}
 	}
 	else
 	{
@@ -1188,6 +1187,8 @@ after:
 void Chess::readBoard(string filename)
 {
 	chessBoard = {};
+	chessRecord = {};
+	chessStep = {};
 	ifstream fin(filename);
 	for (int i = 0; i < 10; i++)
 	{
@@ -1239,11 +1240,10 @@ void Chess::nextPlayer()
 
 void Chess::recordChessStep(vector<int>ori, vector<int>des)
 {
-	// １紅：炮八平五　　　║//文字後 全全全║半
 	vector<string>fullA;
 	vector<string>fullC;
 	fullA = { "０","１","２","３","４","５","６","７","８","９" };
-	fullC = { "零","一","二","三","四","五","六","七","八","九" };
+	fullC = { "零","九","八","七","六","五","四","三","二","一" };
 	stringstream step("║ 　");
 	stepNumber += 1;
 	vector<int>num;
@@ -1262,7 +1262,6 @@ void Chess::recordChessStep(vector<int>ori, vector<int>des)
 		switch (chessBoard[ori[0]][ori[1]])
 		{
 		case 1:
-		{
 			step << "將" << fullA[ori[1] + 1];
 			if (des[0] > ori[0])
 			{
@@ -1277,9 +1276,7 @@ void Chess::recordChessStep(vector<int>ori, vector<int>des)
 				step << "平" << fullA[des[1] + 1];
 			}
 			break;
-		}
 		case 2:
-		{
 			step << "士" << fullA[ori[1] + 1];
 			if (des[0] > ori[0])
 			{
@@ -1289,12 +1286,8 @@ void Chess::recordChessStep(vector<int>ori, vector<int>des)
 			{
 				step << "退" << fullA[des[1] + 1];
 			}
-			else break;
 			break;
-		}
-
 		case 3:
-		{
 			step << "象" << fullA[ori[1] + 1];
 			if (des[0] > ori[0])
 			{
@@ -1304,12 +1297,8 @@ void Chess::recordChessStep(vector<int>ori, vector<int>des)
 			{
 				step << "退" << fullA[des[1] + 1];
 			}
-			else break;
 			break;
-		}
-
 		case 4:
-		{
 			step << "車" << fullA[ori[1] + 1];
 			if (des[0] > ori[0])
 			{
@@ -1324,10 +1313,7 @@ void Chess::recordChessStep(vector<int>ori, vector<int>des)
 				step << "平" << fullA[des[1] + 1];
 			}
 			break;
-		}
-
 		case 5:
-		{
 			step << "馬" << fullA[ori[1] + 1];
 			if (des[0] > ori[0])
 			{
@@ -1339,10 +1325,7 @@ void Chess::recordChessStep(vector<int>ori, vector<int>des)
 			}
 			else break;
 			break;
-		}
-
 		case 6:
-		{
 			step << "包" << fullA[ori[1] + 1];
 			if (des[0] > ori[0])
 			{
@@ -1357,10 +1340,7 @@ void Chess::recordChessStep(vector<int>ori, vector<int>des)
 				step << "平" << fullA[des[1] + 1];
 			}
 			break;
-		}
-
 		case 7:
-		{
 			step << "卒" << fullA[ori[1] + 1];
 			if (des[0] > ori[0])
 			{
@@ -1375,12 +1355,113 @@ void Chess::recordChessStep(vector<int>ori, vector<int>des)
 				step << "平" << fullA[des[1] + 1];
 			}
 			break;
+		default:
+			break;
+
 		}
+	}
+	else if (whoseTurn == 1)
+	{
+		step << "紅：";
+		switch (chessBoard[ori[0]][ori[1]] - 7)
+		{
+		case 1:
+			step << "帥" << fullC[ori[1]+1];
+			if (des[0] < ori[0])
+			{
+				step << "進" << fullC[10+(des[0]-ori[0])];
+			}
+			else if (des[0] > ori[0])
+			{
+				step << "退" << fullC[10 - (ori[0] - des[0])];
+			}
+			else
+			{
+				step << "平" << fullC[des[1]+1];
+			}
+			break;
+		case 2:
+			step << "仕" << fullC[ori[1] + 1];
+			if (des[0] < ori[0])
+			{
+				step << "進" << fullC[des[1]+1];
+			}
+			else if (des[0] > ori[0])
+			{
+				step << "退" << fullC[des[1]+1];
+			}
+			break;
+		case 3:
+			step<< "相" << fullC[ori[1] + 1];
+			if (des[0] < ori[0])
+			{
+				step << "進" << fullC[des[1] + 1];
+			}
+			else if (des[0] > ori[0])
+			{
+				step << "退" << fullC[des[1] + 1];
+			}
+			break;
+		case 4:
+			step<< "俥" << fullC[ori[1] + 1];
+			if (des[0] < ori[0])
+			{
+				step << "進" << fullC[10 + (des[0] - ori[0])];
+			}
+			else if (des[0] > ori[0])
+			{
+				step << "退" << fullC[10 - (ori[0] - des[0])];
+			}
+			else
+			{
+				step << "平" << fullC[des[1] + 1];
+			}
+			break;
+		case 5:
+			step<< "傌" << fullC[ori[1] + 1];
+			if (des[0] < ori[0])
+			{
+				step << "進" << fullC[des[1] + 1];
+			}
+			else if (des[0] > ori[0])
+			{
+				step << "退" << fullC[des[1] + 1];
+			}
+			break;
+		case 6:
+			step<< "炮" << fullC[ori[1] + 1];
+			if (des[0] < ori[0])
+			{
+				step << "進" << fullC[10 + (des[0] - ori[0])];
+			}
+			else if (des[0] > ori[0])
+			{
+				step << "退" << fullC[10 - (ori[0] - des[0])];
+			}
+			else
+			{
+				step << "平" << fullC[des[1] + 1];
+			}
+			break;
+		case 7:
+			step<< "兵" << fullC[ori[1] + 1];
+			if (des[0] < ori[0])
+			{
+				step << "進" << fullC[10 + (des[0] - ori[0])];
+			}
+			else if (des[0] > ori[0])
+			{
+				step << "退" << fullC[10 - (ori[0] - des[0])];
+			}
+			else
+			{
+				step << "平" << fullC[des[1] + 1];
+			}
+			break;
 		default:
 			break;
 		}
 	}
-	
 	step << "　　　║ ";
 	string res;
 	step >> res;
