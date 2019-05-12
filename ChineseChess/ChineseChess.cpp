@@ -28,13 +28,14 @@ int main()
 
 		// 移動棋子、改棋盤，畫出棋盤
 		nextPosition = mainChess.moveChess(currentPosition);
+		mainChess.nextPlayer();
 		GUI.renewLeft();
 		GUI.renewRight();
 		system("cls");
 		GUI.showOutput();
 		//cout << nextPosition[0] << " " << nextPosition[1] << endl;
 		
-		mainChess.nextPlayer();
+		
 		// 記棋譜
 		//GUI.renewChess(mainChess.moveChess());
 	}
